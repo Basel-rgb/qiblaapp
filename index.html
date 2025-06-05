@@ -4,66 +4,226 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Qibla Finder</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f0f2f5;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 350px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: #2e7d32;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+        .compass-container {
+            padding: 20px;
+            position: relative;
+            height: 300px;
+        }
+        .compass {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto;
+            position: relative;
+            background-image: url('assets/compass-rose.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 50%;
+        }
+        .kaaba-icon {
+            position: absolute;
+            top: 70%;
+            left: 70%;
+            width: 30px;
+            height: 30px;
+            background-image: url('assets/kaaba.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            transform: translate(-50%, -50%) rotate(45deg);
+            z-index: 2;
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120px;
+            height: 120px;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease;
+            z-index: 3;
+        }
+        .arrow svg {
+            width: 100%;
+            height: 100%;
+        }
+        .info-panel {
+            text-align: center;
+            padding: 15px;
+        }
+        .qibla-degree {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .coordinates {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        footer {
+            background: #2e7d32;
+            padding: 10px 0;
+        }
+        nav {
+            display: flex;
+            justify-content: space-around;
+        }
+        nav button {
+            background: none;
+            border: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="app-container">
         <header>
             <h1>Qibla Finder</h1>
-            <div class="time" id="current-time">10:13</div>
         </header>
 
-        <main>
-            <div class="compass-container">
-                <div class="compass">
-                    <!-- Kompass-Hintergrund -->
-                    <div class="compass-rose">
-                        <img src="assets/compass-rose.png" alt="Compass">
-                    </div>
-                    
-                    <!-- Kaaba Symbol zwischen S und E -->
-                    <div class="kaaba-icon">
-                        <img src="assets/kaaba.png" alt="Kaaba">
-                    </div>
-                    
-                    <!-- Verbesserter Qibla-Pfeil -->
-                    <div class="arrow" id="qibla-arrow">
-                        <svg viewBox="0 0 100 100">
-                            <path d="M50 5 L58 40 L52 40 L52 85 L48 85 L48 40 L42 40 Z" fill="red"/>
-                        </svg>
-                    </div>
-                    
-                    <!-- Himmelsrichtungen -->
-                    <div class="direction-n">N</div>
-                    <div class="direction-e">E</div>
-                    <div class="direction-s">S</div>
-                    <div class="direction-w">W</div>
+        <div class="compass-container">
+            <div class="compass">
+                <div class="kaaba-icon"></div>
+                <div class="arrow" id="qibla-arrow">
+                    <svg viewBox="0 0 100 100">
+                        <path d="M50 5 L58 40 L52 40 L52 85 L48 85 L48 40 L42 40 Z" fill="#d32f2f"/>
+                    </svg>
                 </div>
             </div>
+        </div>
 
-            <div class="info-panel">
-                <div class="qibla-degree" id="qibla-degree">Qibla: 131.5°</div>
-                <div class="coordinates" id="coordinates">Lat: 49.0346, Lng: 12.1167</div>
-            </div>
-        </main>
+        <div class="info-panel">
+            <div class="qibla-degree" id="qibla-degree">Qibla: 131.5°</div>
+            <div class="coordinates" id="coordinates">Lat: 49.0345, Lng: 12.1171</div>
+        </div>
 
         <footer>
             <nav>
-                <button class="active"><i class="fas fa-map"></i> Karte</button>
-                <button><i class="fas fa-compass"></i> Kompass</button>
-                <button><i class="fas fa-video"></i> Live</button>
-                <button><i class="fas fa-cog"></i> Einstellungen</button>
+                <button><i>🗺️</i> Karte</button>
+                <button class="active"><i>🧭</i> Kompass</button>
+                <button><i>📡</i> Live</button>
+                <button><i>⚙️</i> Einst.</button>
             </nav>
         </footer>
-
-        <div class="magnetic-alert" id="magnetic-alert">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span>Magnetische Störung erkannt. Qibla-Richtung kann abweichen.</span>
-        </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const qiblaArrow = document.getElementById('qibla-arrow');
+            const qiblaDegree = document.getElementById('qibla-degree');
+            const coordinates = document.getElementById('coordinates');
+            let qiblaDirection = 131.5;
+
+            // Kompassfunktion
+            function handleOrientation(event) {
+                const heading = event.webkitCompassHeading || (360 - event.alpha);
+                if (heading === null) return;
+
+                const angle = (heading - qiblaDirection + 360 + 45) % 360;
+                qiblaArrow.style.transform = `translate(-50%, -50%) rotate(${-angle}deg)`;
+
+                const arrowPath = qiblaArrow.querySelector('path');
+                const isCorrect = Math.abs(angle - 180) < 15;
+                arrowPath.setAttribute('fill', isCorrect ? '#388e3c' : '#d32f2f');
+            }
+
+            // Standort abfragen
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        qiblaDirection = calculateQibla(lat, lng);
+                        qiblaDegree.textContent = `Qibla: ${qiblaDirection.toFixed(1)}°`;
+                        coordinates.textContent = `Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`;
+                        startCompass();
+                    },
+                    () => startCompass() // Fallback ohne Standort
+                );
+            } else {
+                startCompass();
+            }
+
+            function calculateQibla(lat, lng) {
+                const meccaLat = 21.3891;
+                const meccaLng = 39.8579;
+                const phiK = meccaLat * Math.PI / 180.0;
+                const lambdaK = meccaLng * Math.PI / 180.0;
+                const phi = lat * Math.PI / 180.0;
+                const lambda = lng * Math.PI / 180.0;
+                const psi = 180.0 / Math.PI * Math.atan2(
+                    Math.sin(lambdaK - lambda),
+                    Math.cos(phi) * Math.tan(phiK) - Math.sin(phi) * Math.cos(lambdaK - lambda)
+                );
+                return (psi + 360.0) % 360.0;
+            }
+
+            function startCompass() {
+                if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    DeviceOrientationEvent.requestPermission()
+                        .then(response => {
+                            if (response === 'granted') {
+                                window.addEventListener('deviceorientation', handleOrientation);
+                            }
+                        });
+                } else {
+                    window.addEventListener('deviceorientation', handleOrientation);
+                }
+            }
+
+            // Tab-Wechsel
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Bildlade-Fehler abfangen
+            document.querySelectorAll('[background-image]').forEach(el => {
+                el.onerror = function() {
+                    console.error('Bild konnte nicht geladen werden:', this.style.backgroundImage);
+                    // Fallback für Kompass
+                    if (this.classList.contains('compass')) {
+                        this.style.backgroundImage = 'url("data:image/svg+xml;base64,[KOMPASS_BASE64]")';
+                    }
+                    // Fallback für Kaaba
+                    if (this.classList.contains('kaaba-icon')) {
+                        this.style.backgroundImage = 'url("data:image/svg+xml;base64,[KAABA_BASE64]")';
+                    }
+                };
+            });
+        });
+    </script>
 </body>
 </html>

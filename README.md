@@ -1,2 +1,0 @@
-# qiblaapp
-qiblaapp

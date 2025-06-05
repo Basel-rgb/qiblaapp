@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qibla Finder</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Qibla Finder</h1>
+            <div class="time" id="current-time">10:13</div>
+        </header>
+
+        <main>
+            <div class="compass-container">
+                <div class="compass">
+                    <!-- Kompass-Hintergrund -->
+                    <div class="compass-rose">
+                        <img src="assets/compass-rose.png" alt="Compass">
+                    </div>
+                    
+                    <!-- Kaaba Symbol zwischen S und E -->
+                    <div class="kaaba-icon">
+                        <img src="assets/kaaba.png" alt="Kaaba">
+                    </div>
+                    
+                    <!-- Verbesserter Qibla-Pfeil -->
+                    <div class="arrow" id="qibla-arrow">
+                        <svg viewBox="0 0 100 100">
+                            <path d="M50 5 L58 40 L52 40 L52 85 L48 85 L48 40 L42 40 Z" fill="red"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- Himmelsrichtungen -->
+                    <div class="direction-n">N</div>
+                    <div class="direction-e">E</div>
+                    <div class="direction-s">S</div>
+                    <div class="direction-w">W</div>
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <div class="qibla-degree" id="qibla-degree">Qibla: 131.5°</div>
+                <div class="coordinates" id="coordinates">Lat: 49.0346, Lng: 12.1167</div>
+            </div>
+        </main>
+
+        <footer>
+            <nav>
+                <button class="active"><i class="fas fa-map"></i> Karte</button>
+                <button><i class="fas fa-compass"></i> Kompass</button>
+                <button><i class="fas fa-video"></i> Live</button>
+                <button><i class="fas fa-cog"></i> Einstellungen</button>
+            </nav>
+        </footer>
+
+        <div class="magnetic-alert" id="magnetic-alert">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>Magnetische Störung erkannt. Qibla-Richtung kann abweichen.</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
